@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -16,13 +17,31 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 */
 
 Route::get('/', function () {
+    // \Illuminate\Support\Facades\DB::listen(function ($query) { // Debugging SQL (long way) if not using Laravel PHP Clockwork.
+    //     logger($query->sql, $query->bindings);
+    // });
+
+
+
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => Post::with('category')->get()
     ]);
 });
 
-Route::get('posts/{post}', function($slug) {
+// Route::get('posts/{post}', function($id) { // Get post ID by wildcard
+//     return view('post', [
+//         'post'=> Post::findOrFail($id)
+//     ]);
+// });
+
+Route::get('posts/{post:slug}', function(Post $post) { // Get post ID by route model binding
     return view('post', [
-        'post'=> Post::findOrFail($slug)
+        'post'=> $post
+    ]);
+});
+
+Route::get('categories/{category:slug}', function(Category $category) {
+    return view('posts', [
+        'posts' => $category->posts
     ]);
 });
