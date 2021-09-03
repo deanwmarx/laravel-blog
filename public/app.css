@@ -10,10 +10,7 @@ p {
     line-height: 1.6;
 }
 
-article {
-    border-bottom:1px solid gray;   
-}
-
 #excerpt {
     padding-bottom: 20px!important;
+    border-bottom:1px solid gray; 
 }
