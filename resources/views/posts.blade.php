@@ -6,7 +6,7 @@
             <x-posts-grid :posts="$posts" />
         @else
             <p>No posts yet. Please check back later.</p>
-        @endif)
+        @endif
     </main>
     {{-- @foreach ($posts as $post)  // Old way of looping through database content
         <article>
