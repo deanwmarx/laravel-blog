@@ -1,5 +1,5 @@
 <x-layout>
-    <article>
+    <article id="postArticle">
         <h1>{{ $post->title }}</h1>
 
         <p>

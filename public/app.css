@@ -11,6 +11,10 @@ p {
 }
 
 #excerpt {
-    padding-bottom: 20px!important;
+    padding-bottom: 20px;
     border-bottom:1px solid gray; 
+}
+
+#postArticle {
+    padding-bottom: 20px;
 }
