@@ -22,10 +22,16 @@ Route::get('/', function () {
     //     logger($query->sql, $query->bindings);
     // });
 
+    $posts = Post::latest()->with(['category', 'author']);
 
+    if (request('search')) {
+        $posts->where('title', 'like', '%' . request('search') . '%')
+            ->orWhere('body', 'like', '%' . request('search') . '%');
+    }
 
     return view('posts', [
-        'posts' => Post::latest()->with(['category', 'author'])->get(),
+        // 'posts' => Post::latest()->with(['category', 'author'])->get(),
+        'posts' => $posts->get(),
         'categories' => Category::all()
     ]);
 })->name('home');
