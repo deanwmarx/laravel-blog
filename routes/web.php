@@ -5,6 +5,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,24 +18,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 |
 */
 
-Route::get('/', function () {
-    // \Illuminate\Support\Facades\DB::listen(function ($query) { // Debugging SQL (long way) if not using Laravel PHP Clockwork.
-    //     logger($query->sql, $query->bindings);
-    // });
-
-    $posts = Post::latest()->with(['category', 'author']);
-
-    if (request('search')) {
-        $posts->where('title', 'like', '%' . request('search') . '%')
-            ->orWhere('body', 'like', '%' . request('search') . '%');
-    }
-
-    return view('posts', [
-        // 'posts' => Post::latest()->with(['category', 'author'])->get(),
-        'posts' => $posts->get(),
-        'categories' => Category::all()
-    ]);
-})->name('home');
+Route::get('/', [PostController::class, 'index'])->name('home');
 
 // Route::get('posts/{post}', function($id) { // Get post ID by wildcard
 //     return view('post', [
@@ -42,11 +26,7 @@ Route::get('/', function () {
 //     ]);
 // });
 
-Route::get('posts/{post:slug}', function(Post $post) { // Get post ID by route model binding
-    return view('post', [
-        'post'=> $post
-    ]);
-});
+Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 Route::get('categories/{category:slug}', function(Category $category) {
     return view('posts', [
