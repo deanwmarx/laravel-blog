@@ -20,9 +20,10 @@ class Post extends Model
         //         ->orWhere('body', 'like', '%' . $search . '%');
         // });
         $query->when($filters['search'] ?? false, fn ($query, $search) => // PHP 8 with arrow functions
-            $query
-                ->where('title', 'like', '%' . $search . '%')
+            $query->where(fn ($query) =>
+                $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('body', 'like', '%' . $search . '%')
+            )
         );
         
         $query->when($filters['category'] ?? false, fn ($query, $category) => // PHP 8 with arrow functions
