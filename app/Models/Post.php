@@ -22,7 +22,20 @@ class Post extends Model
         $query->when($filters['search'] ?? false, fn ($query, $search) => // PHP 8 with arrow functions
             $query
                 ->where('title', 'like', '%' . $search . '%')
-                ->orWhere('body', 'like', '%' . $search . '%'));
+                ->orWhere('body', 'like', '%' . $search . '%')
+        );
+        
+        $query->when($filters['category'] ?? false, fn ($query, $category) => // PHP 8 with arrow functions
+            $query
+                // ->whereExists(fn ($query) =>
+                //     $query->from('categories')
+                //         ->whereColumn('categories.id', 'posts.category_id')
+                //         ->where('categories.slug', $category)
+                // )
+                ->whereHas('category', fn ($query) => // Much cleaner than whereExists()
+                    $query->where('slug', $category)
+                )
+        );
     }
 
     public function category()
