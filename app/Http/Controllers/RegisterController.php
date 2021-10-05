@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -21,7 +22,11 @@ class RegisterController extends Controller
 
         // $attributes['password'] = bcrypt($attributes['password']); One way of encrypting passwords instead of in the model with a mutator.
 
-        User::create($attributes);
+        $user = User::create($attributes);
+
+        // Log the user in.
+        // auth()->login($user);
+        Auth::login($user);
 
         // session()->flash('success', 'Your account has been created.'); // Manual wat of doing this before the redirect. Otherwise you can use with() after the redirect.
 
