@@ -23,6 +23,8 @@ class RegisterController extends Controller
 
         User::create($attributes);
 
-        return redirect('/');
+        // session()->flash('success', 'Your account has been created.'); // Manual wat of doing this before the redirect. Otherwise you can use with() after the redirect.
+
+        return redirect('/')->with('success', 'Your account has been created.');
     }
 }
